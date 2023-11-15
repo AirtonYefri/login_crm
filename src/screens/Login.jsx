@@ -47,6 +47,7 @@ function LoginScreen() {
   useEffect(() => {
     console.log("init");
 
+    // Realizar la solicitud a la API
     fetch("https://server-login-crm.vercel.app/user/api", {
       method: "POST",
       body: JSON.stringify({
@@ -54,21 +55,32 @@ function LoginScreen() {
         clave: "$2y$10$13mAvVh6R4ZHPUIMAzgHSOZII0jy/Qx83gTM0l3j3ZjRguba0ul0W",
       }),
     })
-      .then((r) => r.json())
-      .then((r) => console.log("data is", r));
-    // Recuperar el correo y la contraseña guardados
-    AsyncStorage.getItem("email").then((storedEmail) => {
-      if (storedEmail) {
-        setEmail(storedEmail);
-      }
-    });
+      .then((response) => response.json())
+      .then((data) => {
+        // Aquí tienes los datos de la API
+        console.log("Datos de la API:", data);
 
-    AsyncStorage.getItem("password").then((storedPassword) => {
-      if (storedPassword) {
-        setPassword(storedPassword);
-      }
-    });
-  }, []);
+        // También puedes actualizar el estado del componente con los datos de la API
+        // por ejemplo, setEmail(data.email) o setPassword(data.password)
+
+        // Recuperar el correo y la contraseña guardados
+        AsyncStorage.getItem("email").then((storedEmail) => {
+          if (storedEmail) {
+            setEmail(storedEmail);
+          }
+        });
+
+        AsyncStorage.getItem("password").then((storedPassword) => {
+          if (storedPassword) {
+            setPassword(storedPassword);
+          }
+        });
+      })
+      .catch((error) => {
+        console.error("Error al obtener datos de la API:", error);
+      });
+  }, []); // El segundo argumento [] asegura que useEffect se ejecute solo una vez al montar el componente
+
 
   return (
     <View style={styles.container}>
