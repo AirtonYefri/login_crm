@@ -33,54 +33,35 @@ function LoginScreen() {
       // Aquí debes enviar las credenciales al backend para la autenticación
       // Si la autenticación es exitosa, puedes redirigir al usuario a la pantalla de inicio de la aplicación
       // De lo contrario, muestra un mensaje de error
-      if (email === "usuario@example.com" && password === "123456") {
-        navigation.navigate("Inicio_modal"); // Navega a la pantalla de inicio (HomeScreen)
-      } else {
-        Alert.alert("Error", "Inicio de sesión fallido");
-      }
+      // if (email === "usuario@example.com" && password === "123456") {
+      fetch("https://apirest-login-crm.onrender.com/login", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user: email,
+          clave: password,
+        }),
+      })
+        .then((r) => r.json())
+        .then((r) => {
+          if (r.length > 0) navigation.navigate("Inicio_modal");
+          // Navega a la pantalla de inicio (HomeScreen)
+          else {
+            // Alert.alert("Error", "Inicio de sesión fallido");
+            alert("Error", "Inicio de sesión fallido");
+          }
+        })
+        .catch((e) => console.log(e));
     } catch (error) {
       console.error("Error de inicio de sesión:", error);
       Alert.alert("Error", "Inicio de sesión fallido");
     }
   };
 
-  useEffect(() => {
-    console.log("init");
-
-    // Realizar la solicitud a la API
-    fetch("https://server-login-crm.vercel.app/user/api", {
-      method: "POST",
-      body: JSON.stringify({
-        user: "leidy.huriol@negocia.pe",
-        clave: "$2y$10$13mAvVh6R4ZHPUIMAzgHSOZII0jy/Qx83gTM0l3j3ZjRguba0ul0W",
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        // Aquí tienes los datos de la API
-        console.log("Datos de la API:", data);
-
-        // También puedes actualizar el estado del componente con los datos de la API
-        // por ejemplo, setEmail(data.email) o setPassword(data.password)
-
-        // Recuperar el correo y la contraseña guardados
-        AsyncStorage.getItem("email").then((storedEmail) => {
-          if (storedEmail) {
-            setEmail(storedEmail);
-          }
-        });
-
-        AsyncStorage.getItem("password").then((storedPassword) => {
-          if (storedPassword) {
-            setPassword(storedPassword);
-          }
-        });
-      })
-      .catch((error) => {
-        console.error("Error al obtener datos de la API:", error);
-      });
-  }, []); // El segundo argumento [] asegura que useEffect se ejecute solo una vez al montar el componente
-
+  useEffect(() => {}, []); // El segundo argumento [] asegura que useEffect se ejecute solo una vez al montar el componente
 
   return (
     <View style={styles.container}>
