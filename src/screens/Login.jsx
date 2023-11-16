@@ -24,6 +24,8 @@ function LoginScreen() {
   const navigation = useNavigation(); // Obtiene la función de navegación
 
   const handleLogin = async () => {
+    if (!email || !password) return alert("Campos requeridos");
+
     if (isChecked) {
       AsyncStorage.setItem("email", email);
       AsyncStorage.setItem("password", password);
@@ -47,7 +49,9 @@ function LoginScreen() {
       })
         .then((r) => r.json())
         .then((r) => {
-          if (r.length > 0) navigation.navigate("Inicio_modal");
+          console.log(r);
+          if (r.userExist && r.passwordIsCorrect)
+            navigation.navigate("Inicio_modal");
           // Navega a la pantalla de inicio (HomeScreen)
           else {
             // Alert.alert("Error", "Inicio de sesión fallido");
