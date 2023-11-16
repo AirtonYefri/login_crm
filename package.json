@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@expo-google-fonts/inter": "^0.2.3",
+    "@expo/webpack-config": "^19.0.0",
     "@iconify/icons-mdi": "^1.2.47",
     "@iconify/utils": "^2.1.11",
     "@react-native-async-storage/async-storage": "1.18.2",
@@ -38,7 +39,7 @@
     "react-native-svg": "13.9.0",
     "react-native-vector-icons": "^10.0.0",
     "react-native-web": "~0.19.6",
-    "@expo/webpack-config": "^19.0.0"
+    "yet": "^0.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
